@@ -7,3 +7,7 @@ export interface IPostsServiceCreate {
 export interface IPostsServiceDelete {
   id: string;
 }
+
+export interface IPostsServiceFindOne {
+  id: string;
+}

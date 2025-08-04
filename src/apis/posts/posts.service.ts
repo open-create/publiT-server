@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   IPostsServiceCreate,
   IPostsServiceDelete,
+  IPostsServiceFindOne,
 } from './interfaces/posts.interface';
 import { Repository } from 'typeorm';
 import { PostEntity } from './entities/post.entity';
@@ -25,12 +26,22 @@ export class PostsService {
     });
   }
 
+  async findOne({ id }: IPostsServiceFindOne) {
+    return await this.postRepository.findOne({
+      where: { id },
+    });
+  }
+
   update() {
     return 'updated';
   }
 
   async delete({ id }: IPostsServiceDelete) {
-    await this.postRepository.delete(id);
-    return 'deleted';
+    const post = await this.postRepository.findOne({ where: { id } });
+    if (!post) {
+      throw new NotFoundException(`Post with ID ${id} not found`);
+    }
+    const result = await this.postRepository.softDelete({ id });
+    return result.affected ? true : false;
   }
 }
