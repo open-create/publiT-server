@@ -6,6 +6,8 @@ import {
   IPubblesServiceCreate,
   IPubblesServiceDelete,
   IPubblesServiceFindOne,
+  IPubblesServiceUpdate,
+  IPubblesServiceUpdatePartial,
 } from './interfaces/pubbles.interface';
 
 @Injectable()
@@ -27,13 +29,27 @@ export class PubblesService {
   }
 
   async findOne({ id }: IPubblesServiceFindOne): Promise<Pubble> {
-    const post = await this.postRepository.findOne({ where: { id } });
-    if (!post) throw new NotFoundException(`Post with ID ${id} not found`);
-    return post;
+    const pubble = await this.postRepository.findOne({ where: { id } });
+    if (!pubble) throw new NotFoundException(`Post with ID ${id} not found`);
+    return pubble;
   }
 
-  update() {
-    return 'updated';
+  async update({
+    id,
+    updatePubbleInput,
+  }: IPubblesServiceUpdate): Promise<Pubble> {
+    const pubble = await this.findOne({ id });
+    Object.assign(pubble, updatePubbleInput);
+    return this.postRepository.save(pubble);
+  }
+
+  async updatePartial({
+    id,
+    updatePartialPubbleInput,
+  }: IPubblesServiceUpdatePartial): Promise<Pubble> {
+    const pubble = await this.findOne({ id });
+    Object.assign(pubble, updatePartialPubbleInput);
+    return await this.postRepository.save(pubble);
   }
 
   async delete({ id }: IPubblesServiceDelete): Promise<boolean> {

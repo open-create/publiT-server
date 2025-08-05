@@ -1,4 +1,4 @@
-export class CreatePubbleInput {
+export class UpdatePubbleInput {
   title: string;
   content: string;
 }
