@@ -1,4 +1,4 @@
-export class CreatePostsInput {
+export class CreatePubbleInput {
   title: string;
   content: string;
   userId: string;

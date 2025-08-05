@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class PostEntity {
+export class Pubble {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
