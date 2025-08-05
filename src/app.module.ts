@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PubblesModule } from './apis/pubbles/pubbles.module';
 
 @Module({
   imports: [
+    PubblesModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'my-database',
