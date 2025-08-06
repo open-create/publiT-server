@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PubblesModule } from './apis/pubbles/pubbles.module';
+import { AuthModule } from './apis/auth/auth.module';
 
 @Module({
   imports: [
+    AuthModule,
     PubblesModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
