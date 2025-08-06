@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pubble } from './entities/pubble.entity';
@@ -14,23 +14,24 @@ import {
 export class PubblesService {
   constructor(
     @InjectRepository(Pubble)
-    private readonly postRepository: Repository<Pubble>,
+    private readonly pubblesRepository: Repository<Pubble>,
   ) {}
 
   async create({ createPubbleInput }: IPubblesServiceCreate): Promise<Pubble> {
-    const post = this.postRepository.create(createPubbleInput);
-    return await this.postRepository.save(post);
+    const pubble = this.pubblesRepository.create(createPubbleInput);
+    return await this.pubblesRepository.save(pubble);
   }
 
   async findAll(): Promise<Pubble[]> {
-    return await this.postRepository.find({
+    return await this.pubblesRepository.find({
       order: { created_at: 'DESC' },
     });
   }
 
   async findOne({ id }: IPubblesServiceFindOne): Promise<Pubble> {
-    const pubble = await this.postRepository.findOne({ where: { id } });
-    if (!pubble) throw new NotFoundException(`Post with ID ${id} not found`);
+    const pubble = await this.pubblesRepository.findOne({ where: { id } });
+    if (!pubble)
+      throw new UnprocessableEntityException(`Pubble with ID ${id} not found`);
     return pubble;
   }
 
@@ -40,7 +41,7 @@ export class PubblesService {
   }: IPubblesServiceUpdate): Promise<Pubble> {
     const pubble = await this.findOne({ id });
     Object.assign(pubble, updatePubbleInput);
-    return this.postRepository.save(pubble);
+    return this.pubblesRepository.save(pubble);
   }
 
   async updatePartial({
@@ -49,13 +50,13 @@ export class PubblesService {
   }: IPubblesServiceUpdatePartial): Promise<Pubble> {
     const pubble = await this.findOne({ id });
     Object.assign(pubble, updatePartialPubbleInput);
-    return await this.postRepository.save(pubble);
+    return await this.pubblesRepository.save(pubble);
   }
 
   async delete({ id }: IPubblesServiceDelete): Promise<boolean> {
     // 만약 id로 조회한 결과가 없다면 예외 발생
     await this.findOne({ id });
-    const result = await this.postRepository.softDelete({ id });
+    const result = await this.pubblesRepository.softDelete({ id });
     return result.affected ? true : false;
   }
 }
