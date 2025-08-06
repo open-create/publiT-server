@@ -40,7 +40,7 @@ export class AuthService {
   setRefreshToken({ user, res }: IAuthServiceSetRefreshToken): void {
     const refreshToken = this.jwtService.sign(
       { sub: user.id },
-      { secret: '나의리프레시비밀번호', expiresIn: '2w' },
+      { secret: '_refreshSecrete', expiresIn: '2w' },
     );
 
     // <CAUTION> this is for development environment
