@@ -1,6 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { LoginInput } from './dto/login.input';
 import { AuthService } from './auth.service';
+import { Response } from 'express';
+import { IRequest } from 'src/commons/interfaces/context';
 
 @Controller('auth')
 export class AuthController {
@@ -9,12 +11,15 @@ export class AuthController {
   @Post('login')
   login(
     @Body() loginInput: LoginInput, //
+    @Res() res: Response,
   ) {
-    return this.authService.login({ loginInput });
+    return this.authService.login({ loginInput, res });
   }
 
-  // @Post('refresh-token')
-  // restoreRefreshToken(@Param('userId') userId: string): Promise<string> {
-  //   return this.authService.restoreRefreshToken(userId);
-  // }
+  @Post('refresh-token')
+  restoreAccessToken(
+    @Req() context: IRequest, //
+  ): string {
+    return this.authService.restoreAccessToken({ user: context.req.user });
+  }
 }
