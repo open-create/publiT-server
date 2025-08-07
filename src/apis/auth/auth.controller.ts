@@ -5,23 +5,16 @@ import {
   Post,
   Req,
   Res,
+  UnprocessableEntityException,
   UseGuards,
 } from '@nestjs/common';
 import { LoginInput } from './dto/login.input';
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
-import { IRequest } from 'src/commons/interfaces/context';
+import { IAuthUser, IOAuthUser } from 'src/commons/interfaces/context';
 import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
-
-interface IOAuthUser {
-  user: {
-    username: string;
-    email: string;
-    profile_img: string;
-  };
-}
 
 @Controller('auth')
 export class AuthController {
@@ -39,7 +32,7 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard('google'))
-  @Get('/login-google')
+  @Get('login-google')
   async loginGoogle(
     @Req() req: Request & IOAuthUser, //
     @Res() res: Response,
@@ -64,11 +57,13 @@ export class AuthController {
     res.redirect(`${process.env.CLIENT_URL}/test-frontend.html`);
   }
 
-  @UseGuards(AuthGuard('refresh'))
   @Post('refresh-token')
+  @UseGuards(AuthGuard('refresh'))
   restoreAccessToken(
-    @Req() context: IRequest, //
+    @Req() req: Request & IAuthUser, //
   ): string {
-    return this.authService.restoreAccessToken({ user: context.req.user });
+    if (!req.user) throw new UnprocessableEntityException('error');
+    console.log('context.req.user: ', req.user);
+    return this.authService.restoreAccessToken({ user: req.user });
   }
 }

@@ -1,11 +1,13 @@
-import { Request } from 'express';
+export interface IOAuthUser {
+  user: {
+    username: string;
+    email: string;
+    profile_img: string;
+  };
+}
 
 export interface IAuthUser {
   user?: {
     id: string; //
   };
-}
-
-export interface IRequest {
-  req: Request & IAuthUser;
 }
