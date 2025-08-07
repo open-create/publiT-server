@@ -10,7 +10,6 @@ import {
   IUsersServiceFindOneByUsername,
   IUsersServiceUpdate,
 } from './interfaces/users.interfaces';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -21,13 +20,9 @@ export class UsersService {
 
   async create({ createUserInput }: IUsersServiceCreate): Promise<User> {
     await this.findOneByEmail({ email: createUserInput.email });
-    let hashedPassword: string = '';
-    if (createUserInput.password)
-      hashedPassword = await bcrypt.hash(createUserInput.password, 10);
 
     return await this.usersRepository.save({
       ...createUserInput,
-      password: hashedPassword,
     });
   }
 
