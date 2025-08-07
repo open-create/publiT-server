@@ -4,12 +4,10 @@ import {
   Delete,
   Get,
   Patch,
-  Post,
   Req,
   UnprocessableEntityException,
   UseGuards,
 } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { IRequest } from 'src/commons/interfaces/context';
@@ -22,12 +20,13 @@ export class UsersController {
     private readonly usersService: UsersService, //
   ) {}
 
-  @Post('sign-in')
-  createUser(
-    @Body() createUserInput: CreateUserInput, //
-  ): Promise<User> {
-    return this.usersService.create({ createUserInput });
-  }
+  // OAuth로 통일
+  // @Post('sign-in')
+  // createUser(
+  //   @Body() createUserInput: CreateUserInput, //
+  // ): Promise<User> {
+  //   return this.usersService.create({ createUserInput });
+  // }
 
   @Get('profile')
   @UseGuards(AuthGuard('access'))
