@@ -4,17 +4,16 @@ import {
   Delete,
   Get,
   Patch,
-  Post,
   Req,
   UnprocessableEntityException,
   UseGuards,
 } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
-import { IRequest } from 'src/commons/interfaces/context';
+import { IAuthUser } from 'src/commons/interfaces/context';
 import { User } from './entities/user.entity';
 import { UpdateUserInput } from './dto/update-user.input';
+import { Request } from 'express';
 
 @Controller('users')
 export class UsersController {
@@ -22,43 +21,45 @@ export class UsersController {
     private readonly usersService: UsersService, //
   ) {}
 
-  @Post('sign-in')
-  createUser(
-    @Body() createUserInput: CreateUserInput, //
-  ): Promise<User> {
-    return this.usersService.create({ createUserInput });
-  }
+  // OAuth로 통일
+  // @Post('sign-in')
+  // createUser(
+  //   @Body() createUserInput: CreateUserInput, //
+  // ): Promise<User> {
+  //   return this.usersService.create({ createUserInput });
+  // }
 
-  @Get('profile')
+  @Get('/profile')
   @UseGuards(AuthGuard('access'))
   fetchProfile(
-    @Req() context: IRequest, //
+    @Req() req: Request & IAuthUser, //
   ): Promise<User> {
-    if (!context.req.user)
+    if (!req.user)
       throw new UnprocessableEntityException('auth exception in fetchProfile');
-    return this.usersService.findOne({ id: context.req.user.id });
+    return this.usersService.findOne({ id: req.user.id });
   }
 
   @Patch()
   @UseGuards(AuthGuard('access'))
   updateUser(
-    @Req() context: IRequest, //
+    @Req() req: Request & IAuthUser, //
     @Body() updateUserInput: UpdateUserInput,
   ): Promise<User> {
-    if (!context.req.user)
+    if (!req.user)
       throw new UnprocessableEntityException('auth exception in deleteUser');
     return this.usersService.update({
       updateUserInput,
-      id: context.req.user.id,
+      id: req.user.id,
     });
   }
 
   @Delete()
+  @UseGuards(AuthGuard('access'))
   deleteUser(
-    @Req() context: IRequest, //
+    @Req() req: Request & IAuthUser, //
   ): Promise<boolean> {
-    if (!context.req.user)
+    if (!req.user)
       throw new UnprocessableEntityException('auth exception in deleteUser');
-    return this.usersService.delete({ id: context.req.user.id });
+    return this.usersService.delete({ id: req.user.id });
   }
 }

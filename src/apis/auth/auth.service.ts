@@ -6,7 +6,6 @@ import {
   IAuthServiceSetRefreshToken,
 } from './interfaces/auth.interfaces';
 import { UsersService } from '../users/users.service';
-import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -20,8 +19,6 @@ export class AuthService {
     const user = await this.usersService.findOneByUsername({
       username: loginInput.username,
     });
-    const isAuth = await bcrypt.compare(loginInput.password, user.password);
-    if (!isAuth) throw new UnprocessableEntityException('password is wrong');
 
     this.setRefreshToken({ user, res });
     return this.getAccessToken({ user });
