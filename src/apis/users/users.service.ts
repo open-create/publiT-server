@@ -48,10 +48,7 @@ export class UsersService {
   }
 
   async findOneByEmail({ email }: IUsersServiceFindOneByEmail) {
-    const user = await this.usersRepository.findOne({ where: { email } });
-    if (user)
-      throw new UnprocessableEntityException('this email is already exist');
-    return user;
+    return await this.usersRepository.findOne({ where: { email } });
   }
 
   async update({ updateUserInput, id }: IUsersServiceUpdate) {
