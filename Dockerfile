@@ -8,4 +8,5 @@ WORKDIR /myfolder/
 RUN pnpm install
 
 COPY . /myfolder/
+EXPOSE 8080
 CMD pnpm start:dev
