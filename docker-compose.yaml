@@ -14,4 +14,4 @@ services:
     volumes:
       - ./src:/myfolder/src
     ports:
-      - 5500:5500
+      - 8080:8080
