@@ -21,6 +21,12 @@ import { UsersModule } from './apis/users/users.module';
       entities: [__dirname + '/apis/**/*.entity{.ts,.js}'],
       synchronize: true,
       logging: true,
+      ...(process.env.NODE_ENV === 'prod'
+        ? { socketPath: `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}` }
+        : {
+            host: process.env.DATABASE_HOST,
+            port: Number(process.env.DATABASE_PORT),
+          }),
     }),
   ],
 })
