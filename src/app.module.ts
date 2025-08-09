@@ -12,15 +12,21 @@ import { UsersModule } from './apis/users/users.module';
     UsersModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'my-database',
-      port: 3306,
-      username: 'root',
-      password: '1234',
-      database: 'publit',
+      type: process.env.DATABASE_TYPE as 'mysql',
+      host: process.env.DATABASE_HOST,
+      port: Number(process.env.DATABASE_PORT),
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_DATABASE,
       entities: [__dirname + '/apis/**/*.entity{.ts,.js}'],
       synchronize: true,
       logging: true,
+      ...(process.env.NODE_ENV === 'prod'
+        ? { socketPath: `/cloudsql/${process.env.INSTANCE_CONNECTION_NAME}` }
+        : {
+            host: process.env.DATABASE_HOST,
+            port: Number(process.env.DATABASE_PORT),
+          }),
     }),
   ],
 })

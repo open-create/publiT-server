@@ -1,4 +1,5 @@
-FROM node:20
+# FROM node:20
+FROM --platform=linux/amd64 node:20
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
@@ -8,4 +9,5 @@ WORKDIR /myfolder/
 RUN pnpm install
 
 COPY . /myfolder/
+EXPOSE 8080
 CMD pnpm start:dev
