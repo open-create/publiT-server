@@ -5,7 +5,7 @@ import { HttpExceptionFilter } from './commons/filter/http-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: ['http://localhost:5501', 'https://hoppscotch.io/'],
+    origin: '*',
     methods: '*',
     allowedHeaders: 'Content-Type, Accept',
     credentials: true,
