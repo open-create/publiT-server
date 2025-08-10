@@ -4,11 +4,13 @@ import { PubblesModule } from './apis/pubbles/pubbles.module';
 import { AuthModule } from './apis/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './apis/users/users.module';
+import { PubblesCategoriesModule } from './apis/pubblesCategories/pubblesCategories.module';
 
 @Module({
   imports: [
     AuthModule,
     PubblesModule,
+    PubblesCategoriesModule,
     UsersModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({

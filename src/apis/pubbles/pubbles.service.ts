@@ -19,20 +19,25 @@ export class PubblesService {
 
   async create({ createPubbleInput }: IPubblesServiceCreate): Promise<Pubble> {
     const { pubbleCategoryId, ...pubbleInput } = createPubbleInput;
-    return await this.pubblesRepository.save({
+    const saved = await this.pubblesRepository.save({
       ...pubbleInput,
       pubbleCategory: { id: pubbleCategoryId },
     });
+    return this.findOne({ id: saved.id });
   }
 
   async findAll(): Promise<Pubble[]> {
     return await this.pubblesRepository.find({
       order: { created_at: 'DESC' },
+      relations: ['pubbleCategory'],
     });
   }
 
   async findOne({ id }: IPubblesServiceFindOne): Promise<Pubble> {
-    const pubble = await this.pubblesRepository.findOne({ where: { id } });
+    const pubble = await this.pubblesRepository.findOne({
+      where: { id },
+      relations: ['pubbleCategory'],
+    });
     if (!pubble)
       throw new UnprocessableEntityException(`Pubble with ID ${id} not found`);
     return pubble;

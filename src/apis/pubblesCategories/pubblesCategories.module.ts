@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { pubblesCategoriesController } from './pubblesCategories.controller';
-import { pubblesCategoriesService } from './pubblesCategories.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PubbleCategory } from './entities/pubbleCategory.entity';
+import { PubblesCategoriesController } from './pubblesCategories.controller';
+import { PubblesCategoriesService } from './pubblesCategories.service';
 
 @Module({
   imports: [
@@ -10,7 +10,7 @@ import { PubbleCategory } from './entities/pubbleCategory.entity';
       PubbleCategory, //
     ]),
   ],
-  controllers: [pubblesCategoriesController],
-  providers: [pubblesCategoriesService],
+  controllers: [PubblesCategoriesController],
+  providers: [PubblesCategoriesService],
 })
-export class pubblesCategoriesModule {}
+export class PubblesCategoriesModule {}
