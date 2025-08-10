@@ -4,9 +4,11 @@ import {
   IAuthServiceLogin,
   IAuthServiceRestoreAccessToken,
   IAuthServiceSetRefreshToken,
+  IAuthServiceSocialLogin,
 } from './interfaces/auth.interfaces';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +24,27 @@ export class AuthService {
 
     this.setRefreshToken({ user, res });
     return this.getAccessToken({ user });
+  }
+
+  async socialLogin({ req, res }: IAuthServiceSocialLogin) {
+    // 1. 회원조회
+    let user: User | null = await this.usersService.findOneByEmail({
+      email: req.user.email,
+    });
+
+    // 2. 가입 안되어있다면 회원가입
+    if (!user)
+      user = await this.usersService.create({
+        createUserInput: {
+          ...req.user, //
+          username: req.user.username ?? 'user',
+        },
+      });
+
+    // 3. 회원가입이 되어있다면
+    // 로그인 (refreshToken, accessToken 만들어서 브라우저에 전송)
+    this.setRefreshToken({ user, res });
+    res.redirect(`${process.env.CLIENT_URL}`);
   }
 
   getAccessToken({ user }: IAuthServiceGetAccessToken) {

@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
 import { JwtGoogleStrategy } from './strategies/jwt-social-google.strategy';
+import { JwtNaverStrategy } from './strategies/jwt-social-naver.strategy';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JwtGoogleStrategy } from './strategies/jwt-social-google.strategy';
     JwtAccessStrategy,
     JwtRefreshStrategy,
     JwtGoogleStrategy,
+    JwtNaverStrategy,
     UsersService,
   ],
 })

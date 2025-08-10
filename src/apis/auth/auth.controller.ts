@@ -14,7 +14,6 @@ import { Request, Response } from 'express';
 import { IAuthUser, IOAuthUser } from 'src/commons/interfaces/context';
 import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from '../users/users.service';
-import { User } from '../users/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -33,28 +32,20 @@ export class AuthController {
 
   @UseGuards(AuthGuard('google'))
   @Get('login-google')
-  async loginGoogle(
+  loginGoogle(
     @Req() req: Request & IOAuthUser, //
     @Res() res: Response,
   ) {
-    // 1. 회원조회
-    let user: User | null = await this.usersService.findOneByEmail({
-      email: req.user.email,
-    });
+    this.authService.socialLogin({ req, res });
+  }
 
-    // 2. 가입 안되어있다면 회원가입
-    if (!user)
-      user = await this.usersService.create({
-        createUserInput: {
-          ...req.user, //
-          username: req.user.username ?? 'google-user',
-        },
-      });
-
-    // 3. 회원가입이 되어있다면
-    // 로그인 (refreshToken, accessToken 만들어서 브라우저에 전송)
-    this.authService.setRefreshToken({ user, res });
-    res.redirect(`${process.env.CLIENT_URL}/test-frontend.html`);
+  @UseGuards(AuthGuard('naver'))
+  @Get('login-naver')
+  loginNaver(
+    @Req() req: Request & IOAuthUser, //
+    @Res() res: Response,
+  ) {
+    this.authService.socialLogin({ req, res });
   }
 
   @Post('refresh-token')
