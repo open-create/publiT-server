@@ -1,7 +1,4 @@
-import {
-  PubbleCategory,
-  pubbleCategory,
-} from 'src/apis/pubblesCategories/entities/pubbleCategory.entity';
+import { PubbleCategory } from 'src/apis/pubblesCategories/entities/pubbleCategory.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import {
   Column,

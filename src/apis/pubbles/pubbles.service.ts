@@ -18,8 +18,11 @@ export class PubblesService {
   ) {}
 
   async create({ createPubbleInput }: IPubblesServiceCreate): Promise<Pubble> {
-    const pubble = this.pubblesRepository.create(createPubbleInput);
-    return await this.pubblesRepository.save(pubble);
+    const { pubbleCategoryId, ...pubbleInput } = createPubbleInput;
+    return await this.pubblesRepository.save({
+      ...pubbleInput,
+      pubbleCategory: { id: pubbleCategoryId },
+    });
   }
 
   async findAll(): Promise<Pubble[]> {
