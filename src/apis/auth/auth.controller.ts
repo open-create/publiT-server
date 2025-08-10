@@ -39,7 +39,7 @@ export class AuthController {
     this.authService.socialLogin({ req, res });
   }
 
-  @UseGuards(AuthGuard('google'))
+  @UseGuards(AuthGuard('naver'))
   @Get('login-naver')
   loginNaver(
     @Req() req: Request & IOAuthUser, //
