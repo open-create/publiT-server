@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class pubbleCategory {
+export class PubbleCategory {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
