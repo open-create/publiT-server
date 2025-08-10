@@ -2,6 +2,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-google-oauth20';
 
 export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'naver') {
+
   constructor() {
     const clientID = process.env.NAVER_SOCIAL_CLIENT_ID;
     const clientSecret = process.env.NAVER_SOCIAL_CLIENT_SECRET;
@@ -31,4 +32,7 @@ export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'naver') {
       password: '1234',
     };
   }
+
+  validate() {}
+
 }
