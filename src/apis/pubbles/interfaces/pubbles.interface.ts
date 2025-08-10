@@ -23,3 +23,7 @@ export interface IPubblesServiceUpdatePartial {
   id: string;
   updatePartialPubbleInput: UpdatePartialPubbleInput;
 }
+
+export interface IPubbleServiceFindByCategory {
+  pubbleCategoryId: string;
+}

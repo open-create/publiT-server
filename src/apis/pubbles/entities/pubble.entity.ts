@@ -1,3 +1,4 @@
+import { PubbleCategory } from 'src/apis/pubblesCategories/entities/pubbleCategory.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import {
   Column,
@@ -31,4 +32,7 @@ export class Pubble {
 
   @ManyToOne(() => User)
   user: User;
+
+  @ManyToOne(() => PubbleCategory)
+  pubbleCategory: PubbleCategory;
 }
