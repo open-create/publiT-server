@@ -54,7 +54,7 @@ export class AuthController {
     // 3. 회원가입이 되어있다면
     // 로그인 (refreshToken, accessToken 만들어서 브라우저에 전송)
     this.authService.setRefreshToken({ user, res });
-    res.redirect(`${process.env.CLIENT_URL}/test-frontend.html`);
+    res.redirect(`${process.env.CLIENT_URL}`);
   }
 
   @Post('refresh-token')
