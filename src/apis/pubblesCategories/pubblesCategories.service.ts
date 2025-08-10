@@ -40,6 +40,14 @@ export class PubblesCategoriesService {
     };
   }
 
+  async update({ id, name }: { id: string; name: string }) {
+    const category = await this.findOne({ id });
+    if (!category)
+      throw new UnprocessableEntityException('this category is not exist');
+    Object.assign(category, { name });
+    return this.pubblesCategoriesRepository.save(category);
+  }
+
   async delete({ id }: { id: string }) {
     const pubbles = await this.pubblesService.findByCategory({
       pubbleCategoryId: id,

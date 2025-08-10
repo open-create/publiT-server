@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { PubblesCategoriesService } from './pubblesCategories.service';
 import { PubbleCategory } from './entities/pubbleCategory.entity';
 
@@ -21,5 +29,13 @@ export class PubblesCategoriesController {
   @Delete('/:id')
   delete(@Param('id') id: string) {
     return this.pubblesCategoriesService.delete({ id });
+  }
+
+  @Put('/:id')
+  update(
+    @Param('id') id: string, //
+    @Body('name') name: string,
+  ) {
+    return this.pubblesCategoriesService.update({ id, name });
   }
 }
