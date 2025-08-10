@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { PubblesCategoriesService } from './pubblesCategories.service';
 import { PubbleCategory } from './entities/pubbleCategory.entity';
 
@@ -16,5 +16,10 @@ export class PubblesCategoriesController {
   @Get()
   findAll() {
     return this.pubblesCategoriesService.findAll();
+  }
+
+  @Delete('/:id')
+  delete(@Param('id') id: string) {
+    return this.pubblesCategoriesService.delete({ id });
   }
 }

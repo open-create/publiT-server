@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pubble } from './entities/pubble.entity';
 import {
+  IPubbleServiceFindByCategory,
   IPubblesServiceCreate,
   IPubblesServiceDelete,
   IPubblesServiceFindOne,
@@ -41,6 +42,11 @@ export class PubblesService {
     if (!pubble)
       throw new UnprocessableEntityException(`Pubble with ID ${id} not found`);
     return pubble;
+  }
+  async findByCategory({ pubbleCategoryId }: IPubbleServiceFindByCategory) {
+    return await this.pubblesRepository.find({
+      where: { pubbleCategory: { id: pubbleCategoryId } },
+    });
   }
 
   async update({

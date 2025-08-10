@@ -7,12 +7,14 @@ import {
   IPubblesCategoriesServiceFindOne,
   IPubblesCategoriesServiceFindOneByName,
 } from './interfaces/pubblesCategories.interface';
+import { PubblesService } from '../pubbles/pubbles.service';
 
 @Injectable()
 export class PubblesCategoriesService {
   constructor(
     @InjectRepository(PubbleCategory)
     private readonly pubblesCategoriesRepository: Repository<PubbleCategory>, //
+    private readonly pubblesService: PubblesService,
   ) {}
 
   async findOne({ id }: IPubblesCategoriesServiceFindOne) {
@@ -36,5 +38,20 @@ export class PubblesCategoriesService {
       id: pubbleCategory.id,
       name: pubbleCategory.name,
     };
+  }
+
+  async delete({ id }: { id: string }) {
+    const pubbles = await this.pubblesService.findByCategory({
+      pubbleCategoryId: id,
+    });
+    if (pubbles)
+      throw new UnprocessableEntityException(
+        `there are pubbles with categoryId ${id}`,
+      );
+    const category = await this.findOne({ id });
+    if (!category)
+      throw new UnprocessableEntityException('this category is not exist');
+    const result = await this.pubblesCategoriesRepository.delete(id);
+    return result.affected ? true : false;
   }
 }
