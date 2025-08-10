@@ -48,6 +48,15 @@ export class AuthController {
     this.authService.socialLogin({ req, res });
   }
 
+  @UseGuards(AuthGuard('kakao'))
+  @Get('login-kakao')
+  loginKakao(
+    @Req() req: Request & IOAuthUser, //
+    @Res() res: Response,
+  ) {
+    this.authService.socialLogin({ req, res });
+  }
+
   @Post('refresh-token')
   @UseGuards(AuthGuard('refresh'))
   restoreAccessToken(
