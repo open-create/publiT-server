@@ -10,21 +10,35 @@ import {
   IPubblesServiceUpdate,
   IPubblesServiceUpdatePartial,
 } from './interfaces/pubbles.interface';
+import { PubblesTagsService } from '../pubblesTags/pubblesTags.service';
+import { PubbleTag } from '../pubblesTags/entities/pubbleTag.entity';
 
 @Injectable()
 export class PubblesService {
   constructor(
     @InjectRepository(Pubble)
-    private readonly pubblesRepository: Repository<Pubble>,
+    private readonly pubblesRepository: Repository<Pubble>, //
+    private readonly pubblesTagsService: PubblesTagsService,
   ) {}
 
   async create({ createPubbleInput }: IPubblesServiceCreate): Promise<Pubble> {
-    const { pubbleCategoryId, ...pubbleInput } = createPubbleInput;
-    const saved = await this.pubblesRepository.save({
+    const { pubbleCategoryId, pubblesTags, ...pubbleInput } = createPubbleInput;
+
+    const tagNames = pubblesTags.map((el) => el.replace('#', ''));
+    const prevTags = await this.pubblesTagsService.findByNames({ tagNames });
+    const temp: { name: string }[] = [];
+    tagNames.forEach((el) => {
+      const isExists = prevTags.find((prevEl) => el === prevEl.name);
+      if (!isExists) temp.push({ name: el });
+    });
+    const newTags = await this.pubblesTagsService.bulkInsert({ names: temp });
+    const tags = [...prevTags, ...newTags.identifiers];
+
+    return await this.pubblesRepository.save({
       ...pubbleInput,
       pubbleCategory: { id: pubbleCategoryId },
+      pubblesTags: tags,
     });
-    return this.findOne({ id: saved.id });
   }
 
   async findAll(): Promise<Pubble[]> {
@@ -43,6 +57,7 @@ export class PubblesService {
       throw new UnprocessableEntityException(`Pubble with ID ${id} not found`);
     return pubble;
   }
+
   async findByCategory({ pubbleCategoryId }: IPubbleServiceFindByCategory) {
     return await this.pubblesRepository.find({
       where: { pubbleCategory: { id: pubbleCategoryId } },
@@ -54,7 +69,16 @@ export class PubblesService {
     updatePubbleInput,
   }: IPubblesServiceUpdate): Promise<Pubble> {
     const pubble = await this.findOne({ id });
-    Object.assign(pubble, updatePubbleInput);
+    const { pubblesTags, ...temp } = updatePubbleInput;
+
+    let tags: PubbleTag[];
+    if (pubblesTags)
+      tags = await this.pubblesTagsService.findByNames({
+        tagNames: pubblesTags,
+      });
+    else tags = [];
+
+    Object.assign(pubble, { ...temp, tags });
     return this.pubblesRepository.save(pubble);
   }
 
@@ -63,7 +87,15 @@ export class PubblesService {
     updatePartialPubbleInput,
   }: IPubblesServiceUpdatePartial): Promise<Pubble> {
     const pubble = await this.findOne({ id });
-    Object.assign(pubble, updatePartialPubbleInput);
+    const { pubblesTags, ...temp } = updatePartialPubbleInput;
+    let tags: PubbleTag[];
+    if (pubblesTags)
+      tags = await this.pubblesTagsService.findByNames({
+        tagNames: pubblesTags,
+      });
+    else tags = [];
+
+    Object.assign(pubble, { ...temp, tags });
     return await this.pubblesRepository.save(pubble);
   }
 

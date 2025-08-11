@@ -1,10 +1,12 @@
 import { PubbleCategory } from 'src/apis/pubblesCategories/entities/pubbleCategory.entity';
+import { PubbleTag } from 'src/apis/pubblesTags/entities/pubbleTag.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -35,4 +37,7 @@ export class Pubble {
 
   @ManyToOne(() => PubbleCategory)
   pubbleCategory: PubbleCategory;
+
+  @ManyToMany(() => PubbleTag, (pubbleTag) => pubbleTag.pubbles)
+  pubbleTags: PubbleTag[];
 }

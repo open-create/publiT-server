@@ -5,12 +5,14 @@ import { AuthModule } from './apis/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './apis/users/users.module';
 import { PubblesCategoriesModule } from './apis/pubblesCategories/pubblesCategories.module';
+import { PubblesTagsModule } from './apis/pubblesTags/pubblesTags.module';
 
 @Module({
   imports: [
     AuthModule,
     PubblesModule,
     PubblesCategoriesModule,
+    PubblesTagsModule,
     UsersModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({

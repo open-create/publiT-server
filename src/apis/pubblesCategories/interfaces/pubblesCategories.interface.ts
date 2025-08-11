@@ -9,3 +9,7 @@ export interface IPubblesCategoriesServiceCreate {
 export interface IPubblesCategoriesServiceFindOneByName {
   name: string;
 }
+
+export interface IProductsTagsFindByNames {
+  tagNames: string[];
+}
