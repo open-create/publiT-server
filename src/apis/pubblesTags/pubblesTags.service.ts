@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PubbleTag } from './entities/pubbleTag.entity';
 import { Repository } from 'typeorm';
+import { IProductsTagsBulkInsert } from './interfaces/pubblesTags.interface';
 
 @Injectable()
 export class PubblesTagsService {
@@ -10,9 +11,11 @@ export class PubblesTagsService {
     private readonly pubblesTagsRepository: Repository<PubbleTag>, //
   ) {}
 
-  create() {}
-
   async findAll(): Promise<PubbleTag[]> {
     return await this.pubblesTagsRepository.find();
+  }
+
+  async bulkInsert({ names }: IProductsTagsBulkInsert) {
+    return await this.pubblesTagsRepository.insert(names);
   }
 }

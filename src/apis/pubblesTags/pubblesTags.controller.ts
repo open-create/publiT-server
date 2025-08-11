@@ -8,14 +8,8 @@ export class PubblesTagsController {
     private readonly pubblesTagsService: PubblesTagsService, //
   ) {}
 
-  createTag() {}
-
   @Get()
   fetchAllTag(): Promise<PubbleTag[]> {
     return this.pubblesTagsService.findAll();
   }
-
-  updateTag() {}
-
-  deleteTag() {}
 }
