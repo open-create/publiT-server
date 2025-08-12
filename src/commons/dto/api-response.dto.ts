@@ -1,7 +1,7 @@
 export class ApiResponse<T> {
   success: boolean;
+  message: string;
   data?: T;
-  message?: string;
   code?: string;
 
   constructor(success: boolean, message: string, data?: T, code?: string) {
