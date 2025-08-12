@@ -1,21 +1,21 @@
 export class ApiResponse<T> {
   success: boolean;
+  code: number;
   message: string;
   data?: T;
-  code?: string;
 
-  constructor(success: boolean, message: string, data?: T, code?: string) {
+  constructor(success: boolean, code: number, message: string, data?: T) {
     this.success = success;
     this.data = data;
     this.message = message;
     this.code = code;
   }
 
-  static success<T>(message: string, data?: T): ApiResponse<T> {
-    return new ApiResponse(true, message, data);
+  static success<T>(message: string, data?: T, code = 200): ApiResponse<T> {
+    return new ApiResponse(true, code, message, data);
   }
 
-  static error(message: string, code?: string) {
-    return new ApiResponse(false, message, undefined, code);
+  static error(message: string, code: number) {
+    return new ApiResponse(false, code, message, undefined);
   }
 }

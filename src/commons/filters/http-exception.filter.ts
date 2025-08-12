@@ -26,6 +26,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     } else {
       message = 'error occurred';
     }
-    response.status(status).json(ApiResponse.error(message, String(status)));
+    response.status(status).json(ApiResponse.error(message, status));
   }
 }
