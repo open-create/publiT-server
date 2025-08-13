@@ -12,6 +12,7 @@ import {
 } from './interfaces/pubbles.interface';
 import { PubblesTagsService } from '../pubblesTags/pubblesTags.service';
 import { PubbleTag } from '../pubblesTags/entities/pubbleTag.entity';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class PubblesService {
@@ -19,11 +20,19 @@ export class PubblesService {
     @InjectRepository(Pubble)
     private readonly pubblesRepository: Repository<Pubble>, //
     private readonly pubblesTagsService: PubblesTagsService,
+    private readonly usersService: UsersService,
   ) {}
 
-  async create({ createPubbleInput }: IPubblesServiceCreate): Promise<Pubble> {
+  async create({
+    createPubbleInput,
+    id,
+  }: IPubblesServiceCreate): Promise<Pubble> {
     const { pubbleCategoryId, pubblesTags, ...pubbleInput } = createPubbleInput;
 
+    // user
+    const user = await this.usersService.findOne({ id });
+
+    // tags
     const tagNames = pubblesTags.map((el) => el.replace('#', ''));
     const prevTags = await this.pubblesTagsService.findByNames({ tagNames });
     const temp: { name: string }[] = [];
@@ -38,20 +47,21 @@ export class PubblesService {
       ...pubbleInput,
       pubbleCategory: { id: pubbleCategoryId },
       pubblesTags: tags,
+      author: user,
     });
   }
 
   async findAll(): Promise<Pubble[]> {
     return await this.pubblesRepository.find({
       order: { created_at: 'DESC' },
-      relations: ['pubbleCategory'],
+      relations: ['pubbleCategory', 'author', 'pubblesTags'],
     });
   }
 
   async findOne({ id }: IPubblesServiceFindOne): Promise<Pubble> {
     const pubble = await this.pubblesRepository.findOne({
       where: { id },
-      relations: ['pubbleCategory'],
+      relations: ['pubbleCategory', 'author', 'pubblesTags'],
     });
     if (!pubble)
       throw new UnprocessableEntityException(`Pubble with ID ${id} not found`);
@@ -71,6 +81,7 @@ export class PubblesService {
     const pubble = await this.findOne({ id });
     const { pubblesTags, ...temp } = updatePubbleInput;
 
+    // tags
     let tags: PubbleTag[];
     if (pubblesTags)
       tags = await this.pubblesTagsService.findByNames({
