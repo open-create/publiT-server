@@ -1,5 +1,6 @@
 import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CommentsService } from './comments.service';
+import { Comment } from './entities/comment.entity';
 
 @Controller('comments')
 export class CommentsController {
@@ -10,13 +11,15 @@ export class CommentsController {
   @Post()
   createComment() {}
 
-  @Get('/:id')
-  fetchComment(
-    @Param('id') pubbleId: string, //
-  ) {
+  @Get('/:pubbleId')
+  fetchComments(
+    @Param('pubbleId') pubbleId: string, //
+  ): Promise<Comment[]> {
     return this.commentsService.findByPubbleId({ pubbleId });
   }
 
-  @Delete()
-  deleteComment() {}
+  @Delete('/:id')
+  deleteComment(@Param('id') id: string): Promise<boolean> {
+    return this.commentsService.delete({ id });
+  }
 }
