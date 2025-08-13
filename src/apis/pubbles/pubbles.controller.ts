@@ -41,18 +41,22 @@ export class PubblesController {
   @UseGuards(AuthGuard('access'))
   create(
     @Body() createPubbleInput: CreatePubbleInput, //
-    @Req() req: Request & IAuthUser, //
+    @Req() req: Request & IAuthUser,
   ) {
     if (!req.user) throw new UnprocessableEntityException();
     return this.pubblesService.create({ createPubbleInput, id: req.user.id });
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard('access'))
   update(
     @Param('id') id: string, //
     @Body() updatePubbleInput: UpdatePubbleInput,
   ): Promise<Pubble> {
-    return this.pubblesService.update({ id, updatePubbleInput });
+    return this.pubblesService.update({
+      id,
+      updatePubbleInput,
+    });
   }
 
   @Patch(':id')

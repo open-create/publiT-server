@@ -81,6 +81,7 @@ export class PubblesService {
     const pubble = await this.findOne({ id });
     const { pubblesTags, ...temp } = updatePubbleInput;
 
+    // tags
     let tags: PubbleTag[];
     if (pubblesTags)
       tags = await this.pubblesTagsService.findByNames({
