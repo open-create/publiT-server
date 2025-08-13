@@ -30,14 +30,10 @@ export class PubblesCategoriesService {
   }
 
   async create({ name }: IPubblesCategoriesServiceCreate) {
-    let pubbleCategory = await this.findOneByName({ name });
+    const pubbleCategory = await this.findOneByName({ name });
     if (pubbleCategory)
       throw new UnprocessableEntityException('this category is already exist');
-    pubbleCategory = await this.pubblesCategoriesRepository.save({ name });
-    return {
-      id: pubbleCategory.id,
-      name: pubbleCategory.name,
-    };
+    return await this.pubblesCategoriesRepository.save({ name });
   }
 
   async update({ id, name }: { id: string; name: string }) {

@@ -9,6 +9,6 @@ export class PubbleTag {
   @Column()
   name: string;
 
-  @ManyToMany(() => Pubble, (pubble) => pubble.pubbleTags)
+  @ManyToMany(() => Pubble, (pubble) => pubble.pubblesTags)
   pubbles: Pubble[];
 }

@@ -54,14 +54,14 @@ export class PubblesService {
   async findAll(): Promise<Pubble[]> {
     return await this.pubblesRepository.find({
       order: { created_at: 'DESC' },
-      relations: ['pubbleCategory', 'author', 'pubblesTags'],
+      relations: ['pubbleCategory', 'author', 'pubblesTags', 'comments'],
     });
   }
 
   async findOne({ id }: IPubblesServiceFindOne): Promise<Pubble> {
     const pubble = await this.pubblesRepository.findOne({
       where: { id },
-      relations: ['pubbleCategory', 'author', 'pubblesTags'],
+      relations: ['pubbleCategory', 'author', 'pubblesTags', 'comments'],
     });
     if (!pubble)
       throw new UnprocessableEntityException(`Pubble with ID ${id} not found`);
