@@ -1,4 +1,4 @@
-import { Comment } from 'src/apis/comments/entities/comment.entity';
+import { Pubble } from 'src/apis/pubbles/entities/pubble.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import {
   CreateDateColumn,
@@ -12,8 +12,8 @@ export class CommentLike {
   @PrimaryGeneratedColumn('uuid')
   id;
 
-  @ManyToOne(() => Comment)
-  comments: Comment;
+  @ManyToOne(() => Pubble)
+  pubble: Pubble;
 
   @ManyToOne(() => User)
   user: User;
