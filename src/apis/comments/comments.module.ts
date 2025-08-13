@@ -6,6 +6,8 @@ import { PubblesService } from '../pubbles/pubbles.service';
 import { Pubble } from '../pubbles/entities/pubble.entity';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
+import { Comment } from './entities/comment.entity';
+import { PubblesTagsModule } from '../pubblesTags/pubblesTags.module';
 
 @Module({
   imports: [
@@ -14,6 +16,7 @@ import { UsersService } from '../users/users.service';
       Pubble,
       User,
     ]),
+    PubblesTagsModule,
   ],
   controllers: [CommentsController],
   providers: [

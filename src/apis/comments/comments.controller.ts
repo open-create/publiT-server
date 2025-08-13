@@ -23,10 +23,10 @@ export class CommentsController {
     private readonly commentsService: CommentsService, //
   ) {}
 
-  @Post('/:pubbleId')
+  @Post()
   @UseGuards(AuthGuard('access'))
   createComment(
-    @Body('createCommentsInput') createCommentsInput: CreateCommentsInput,
+    @Body() createCommentsInput: CreateCommentsInput,
     @Req() req: Request & IAuthUser,
   ) {
     if (!req.user) throw new UnprocessableEntityException('unauthorized');

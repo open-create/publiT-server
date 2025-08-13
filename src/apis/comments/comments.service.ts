@@ -32,7 +32,7 @@ export class CommentsService {
       );
 
     // user
-    const user = await this.pubblesService.findOne({ id: authorId });
+    const user = await this.usersService.findOne({ id: authorId });
     if (!user) throw new UnprocessableEntityException('there is no user');
 
     // parent comment

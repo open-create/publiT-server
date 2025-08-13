@@ -1,3 +1,4 @@
+import { Comment } from 'src/apis/comments/entities/comment.entity';
 import { PubbleCategory } from 'src/apis/pubblesCategories/entities/pubbleCategory.entity';
 import { PubbleTag } from 'src/apis/pubblesTags/entities/pubbleTag.entity';
 import { User } from 'src/apis/users/entities/user.entity';
@@ -6,8 +7,10 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -39,5 +42,9 @@ export class Pubble {
   pubbleCategory: PubbleCategory;
 
   @ManyToMany(() => PubbleTag, (pubbleTag) => pubbleTag.pubbles)
-  pubbleTags: PubbleTag[];
+  @JoinTable()
+  pubblesTags: PubbleTag[];
+
+  @OneToMany(() => Comment, (comment) => comment.pubble)
+  comments: Comment[];
 }
