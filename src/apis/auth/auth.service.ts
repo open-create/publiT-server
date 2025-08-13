@@ -5,7 +5,7 @@ import {
   IAuthServiceRestoreAccessToken,
   IAuthServiceSetRefreshToken,
   IAuthServiceSocialLogin,
-} from './interfaces/auth.interfaces';
+} from './interfaces/auth.interface';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/entities/user.entity';

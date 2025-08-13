@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './apis/users/users.module';
 import { PubblesCategoriesModule } from './apis/pubblesCategories/pubblesCategories.module';
 import { PubblesTagsModule } from './apis/pubblesTags/pubblesTags.module';
+import { CommentsModule } from './apis/comments/comments.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { PubblesTagsModule } from './apis/pubblesTags/pubblesTags.module';
     PubblesCategoriesModule,
     PubblesTagsModule,
     UsersModule,
+    CommentsModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: process.env.DATABASE_TYPE as 'mysql',
