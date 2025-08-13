@@ -33,7 +33,7 @@ export class Pubble {
   deleted_at: Date;
 
   @ManyToOne(() => User)
-  user: User;
+  author: User;
 
   @ManyToOne(() => PubbleCategory)
   pubbleCategory: PubbleCategory;

@@ -12,6 +12,7 @@ import {
 } from './interfaces/pubbles.interface';
 import { PubblesTagsService } from '../pubblesTags/pubblesTags.service';
 import { PubbleTag } from '../pubblesTags/entities/pubbleTag.entity';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class PubblesService {
@@ -19,11 +20,19 @@ export class PubblesService {
     @InjectRepository(Pubble)
     private readonly pubblesRepository: Repository<Pubble>, //
     private readonly pubblesTagsService: PubblesTagsService,
+    private readonly usersService: UsersService,
   ) {}
 
-  async create({ createPubbleInput }: IPubblesServiceCreate): Promise<Pubble> {
+  async create({
+    createPubbleInput,
+    id,
+  }: IPubblesServiceCreate): Promise<Pubble> {
     const { pubbleCategoryId, pubblesTags, ...pubbleInput } = createPubbleInput;
 
+    // user
+    const user = await this.usersService.findOne({ id });
+
+    // tags
     const tagNames = pubblesTags.map((el) => el.replace('#', ''));
     const prevTags = await this.pubblesTagsService.findByNames({ tagNames });
     const temp: { name: string }[] = [];
@@ -38,6 +47,7 @@ export class PubblesService {
       ...pubbleInput,
       pubbleCategory: { id: pubbleCategoryId },
       pubblesTags: tags,
+      author: user,
     });
   }
 

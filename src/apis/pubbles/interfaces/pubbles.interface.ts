@@ -4,6 +4,7 @@ import { UpdatePartialPubbleInput } from '../dto/updatePartial-pubbles.input';
 
 export interface IPubblesServiceCreate {
   createPubbleInput: CreatePubbleInput;
+  id: string;
 }
 
 export interface IPubblesServiceDelete {

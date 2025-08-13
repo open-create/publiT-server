@@ -7,12 +7,17 @@ import {
   Patch,
   Post,
   Put,
+  Req,
+  UnprocessableEntityException,
+  UseGuards,
 } from '@nestjs/common';
 import { CreatePubbleInput } from './dto/create-pubbles.input';
 import { Pubble } from './entities/pubble.entity';
 import { PubblesService } from './pubbles.service';
 import { UpdatePartialPubbleInput } from './dto/updatePartial-pubbles.input';
 import { UpdatePubbleInput } from './dto/update-pupbbles.input';
+import { AuthGuard } from '@nestjs/passport';
+import { IAuthUser } from 'src/commons/interfaces/context';
 
 @Controller('pubbles')
 export class PubblesController {
@@ -33,10 +38,13 @@ export class PubblesController {
   }
 
   @Post()
+  @UseGuards(AuthGuard('access'))
   create(
     @Body() createPubbleInput: CreatePubbleInput, //
+    @Req() req: Request & IAuthUser, //
   ) {
-    return this.pubblesService.create({ createPubbleInput });
+    if (!req.user) throw new UnprocessableEntityException();
+    return this.pubblesService.create({ createPubbleInput, id: req.user.id });
   }
 
   @Put(':id')
