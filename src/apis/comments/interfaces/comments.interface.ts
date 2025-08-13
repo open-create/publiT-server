@@ -16,3 +16,9 @@ export interface ICommentsServiceCreate {
   createCommentsInput: CreateCommentsInput;
   authorId: string;
 }
+
+export interface ICommentsServiceUpdate {
+  id: string;
+  content: string;
+  authorId: string;
+}

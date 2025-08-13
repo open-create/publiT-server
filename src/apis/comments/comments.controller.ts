@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Req,
   UnprocessableEntityException,
@@ -37,6 +38,16 @@ export class CommentsController {
     @Param('pubbleId') pubbleId: string, //
   ): Promise<Comment[]> {
     return this.commentsService.findByPubbleId({ pubbleId });
+  }
+
+  @Patch('/:id')
+  updateComment(
+    @Param('id') id: string, //
+    @Body('content') content: string,
+    @Req() req: Request & IAuthUser,
+  ) {
+    if (!req.user) throw new UnprocessableEntityException('unauthorized');
+    return this.commentsService.update({ id, content, authorId: req.user.id });
   }
 
   @Delete('/:id')

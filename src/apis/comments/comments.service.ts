@@ -7,6 +7,7 @@ import {
   ICommentsServiceDelete,
   ICommentsServiceFindByPubbleId,
   ICommentsServiceFindOne,
+  ICommentsServiceUpdate,
 } from './interfaces/comments.interface';
 import { PubblesService } from '../pubbles/pubbles.service';
 import { UsersService } from '../users/users.service';
@@ -70,6 +71,20 @@ export class CommentsService {
     return await this.commentsRepository.find({
       where: { pubble: { id: pubbleId } },
     });
+  }
+
+  async update({ id, content, authorId }: ICommentsServiceUpdate) {
+    // comment
+    const comment = await this.findOne({ id });
+    if (!comment)
+      throw new UnprocessableEntityException(
+        `there is no comment with id: ${id}`,
+      );
+    // user
+    if (comment.author.id != authorId)
+      throw new UnprocessableEntityException('author is not correct.');
+    Object.assign(comment, content);
+    return this.commentsRepository.save(comment);
   }
 
   async delete({ id }: ICommentsServiceDelete): Promise<boolean> {
