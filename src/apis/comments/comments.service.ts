@@ -56,7 +56,7 @@ export class CommentsService {
   async findOne({ id }: ICommentsServiceFindOne) {
     return await this.commentsRepository.findOne({
       where: { id },
-      relations: ['childrenComments'],
+      relations: ['childrenComments', 'author'],
     });
   }
 
@@ -70,6 +70,7 @@ export class CommentsService {
       );
     return await this.commentsRepository.find({
       where: { pubble: { id: pubbleId } },
+      relations: ['childrenComments', 'author'],
     });
   }
 
@@ -83,7 +84,7 @@ export class CommentsService {
     // user
     if (comment.author.id != authorId)
       throw new UnprocessableEntityException('author is not correct.');
-    Object.assign(comment, content);
+    Object.assign(comment, { content });
     return this.commentsRepository.save(comment);
   }
 
