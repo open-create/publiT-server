@@ -6,6 +6,7 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -18,7 +19,10 @@ export class Comment {
   content: string;
 
   @ManyToOne(() => Comment, { nullable: true })
-  parent_id: Comment;
+  parentComment?: Comment | null;
+
+  @OneToMany(() => Comment, (comment) => comment.parentComment)
+  childrenComments?: Comment[];
 
   @ManyToOne(() => User)
   author: User;

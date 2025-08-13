@@ -1,3 +1,5 @@
+import { CreateCommentsInput } from '../dto/create-comments.input';
+
 export interface ICommentsServiceFindByPubbleId {
   pubbleId: string;
 }
@@ -8,4 +10,9 @@ export interface ICommentsServiceFindOne {
 
 export interface ICommentsServiceDelete {
   id: string;
+}
+
+export interface ICommentsServiceCreate {
+  createCommentsInput: CreateCommentsInput;
+  authorId: string;
 }
