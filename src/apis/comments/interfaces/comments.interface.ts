@@ -10,6 +10,7 @@ export interface ICommentsServiceFindOne {
 
 export interface ICommentsServiceDelete {
   id: string;
+  authorId: string;
 }
 
 export interface ICommentsServiceCreate {

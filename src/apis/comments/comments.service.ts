@@ -87,7 +87,8 @@ export class CommentsService {
     return this.commentsRepository.save(comment);
   }
 
-  async delete({ id }: ICommentsServiceDelete): Promise<boolean> {
+  async delete({ id, authorId }: ICommentsServiceDelete): Promise<boolean> {
+    // comment
     const comment = await this.findOne({ id });
     if (!comment)
       throw new UnprocessableEntityException(
@@ -97,6 +98,9 @@ export class CommentsService {
       throw new UnprocessableEntityException(
         "there is children comments. so can't delete this comment.",
       );
+    // user
+    if (comment.author.id != authorId)
+      throw new UnprocessableEntityException('author is not correct.');
     const result = await this.commentsRepository.softDelete(id);
     return result.affected ? true : false;
   }
