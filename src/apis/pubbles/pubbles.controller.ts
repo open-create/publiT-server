@@ -93,4 +93,11 @@ export class PubblesController {
     if (!req.user) throw new UnprocessableEntityException();
     return this.pubblesLikesService.unlike({ id, userId: req.user.id });
   }
+
+  @Get('/:id/like')
+  async countLikes(
+    @Param('id') id: string, //
+  ) {
+    return this.pubblesLikesService.countLikes({ id });
+  }
 }

@@ -7,12 +7,15 @@ import { PubbleTag } from '../pubblesTags/entities/pubbleTag.entity';
 import { PubblesTagsService } from '../pubblesTags/pubblesTags.service';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
+import { PubbleLike } from '../pubblesLikes/entities/pubbleLike.entity';
+import { PubblesLikesService } from '../pubblesLikes/pubblesLikes.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       Pubble, //
       PubbleTag,
       User,
+      PubbleLike,
     ]),
   ],
   controllers: [PubblesController],
@@ -20,6 +23,7 @@ import { UsersService } from '../users/users.service';
     PubblesService, //
     PubblesTagsService,
     UsersService,
+    PubblesLikesService,
   ],
 })
 export class PubblesModule {}
