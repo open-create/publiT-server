@@ -5,15 +5,17 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 
+@Unique(['user', 'comment'])
 @Entity()
 export class CommentLike {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ManyToOne(() => Comment)
-  comments: Comment;
+  comment: Comment;
 
   @ManyToOne(() => User)
   user: User;
