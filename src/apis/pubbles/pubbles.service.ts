@@ -27,7 +27,8 @@ export class PubblesService {
     createPubbleInput,
     id,
   }: IPubblesServiceCreate): Promise<Pubble> {
-    const { pubbleCategoryId, pubblesTags, ...pubbleInput } = createPubbleInput;
+    const { pubbleCategoryId, pubblesTags, fileNames, ...pubbleInput } =
+      createPubbleInput;
 
     // user
     const user = await this.usersService.findOne({ id });
@@ -47,6 +48,7 @@ export class PubblesService {
       ...pubbleInput,
       pubbleCategory: { id: pubbleCategoryId },
       pubblesTags: tags,
+      fileNames,
       author: user,
     });
   }

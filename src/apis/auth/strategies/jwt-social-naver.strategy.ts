@@ -30,6 +30,7 @@ export class JwtNaverStrategy extends PassportStrategy(Strategy, 'naver') {
       email: profile.emails?.[0]?.value ?? '',
       provider: 'naver',
       accessToken,
+      profile_img: profile.photos?.[0]?.value,
     };
   }
 }

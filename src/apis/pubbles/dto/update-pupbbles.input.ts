@@ -1,7 +1,7 @@
 export class UpdatePubbleInput {
   title: string;
   content: string;
-  img_url: string;
+  fileNames: string | null;
   pubbleCategoryId: string;
   pubblesTags: string[];
 }
