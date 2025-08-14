@@ -116,4 +116,16 @@ export class PubblesService {
     const result = await this.pubblesRepository.softDelete({ id });
     return result.affected ? true : false;
   }
+
+  async like({ id }: { id: string }): Promise<Pubble> {
+    const pubble = await this.findOne({ id });
+    pubble.likeCount += 1;
+    return await this.pubblesRepository.save(pubble);
+  }
+
+  async unlike({ id }: { id: string }): Promise<Pubble> {
+    const pubble = await this.findOne({ id });
+    pubble.likeCount -= 1;
+    return await this.pubblesRepository.save(pubble);
+  }
 }

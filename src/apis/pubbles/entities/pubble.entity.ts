@@ -26,6 +26,9 @@ export class Pubble {
   @Column()
   content: string;
 
+  @Column({ default: 0 })
+  likeCount: number;
+
   @CreateDateColumn()
   created_at: Date;
 
