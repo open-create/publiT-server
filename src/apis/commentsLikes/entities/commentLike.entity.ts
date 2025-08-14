@@ -10,7 +10,7 @@ import {
 @Entity()
 export class CommentLike {
   @PrimaryGeneratedColumn('uuid')
-  id;
+  id: string;
 
   @ManyToOne(() => Comment)
   comments: Comment;

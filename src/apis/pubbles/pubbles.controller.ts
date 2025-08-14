@@ -18,11 +18,13 @@ import { UpdatePartialPubbleInput } from './dto/updatePartial-pubbles.input';
 import { UpdatePubbleInput } from './dto/update-pupbbles.input';
 import { AuthGuard } from '@nestjs/passport';
 import { IAuthUser } from 'src/commons/interfaces/context';
+import { PubblesLikesService } from '../pubblesLikes/pubblesLikes.service';
 
 @Controller('pubbles')
 export class PubblesController {
   constructor(
     private readonly pubblesService: PubblesService, //
+    private readonly pubblesLikesService: PubblesLikesService,
   ) {}
 
   @Get()
@@ -70,5 +72,25 @@ export class PubblesController {
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.pubblesService.delete({ id });
+  }
+
+  @Post('/:id/like')
+  @UseGuards(AuthGuard('access'))
+  like(
+    @Param('id') id: string, //
+    @Req() req: Request & IAuthUser,
+  ) {
+    if (!req.user) throw new UnprocessableEntityException();
+    return this.pubblesLikesService.like({ id, userId: req.user.id });
+  }
+
+  @Delete('/:id/like')
+  @UseGuards(AuthGuard('access'))
+  unlike(
+    @Param('id') id: string, //
+    @Req() req: Request & IAuthUser,
+  ) {
+    if (!req.user) throw new UnprocessableEntityException();
+    return this.pubblesLikesService.unlike({ id, userId: req.user.id });
   }
 }
