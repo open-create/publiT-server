@@ -7,6 +7,7 @@ import { UsersModule } from './apis/users/users.module';
 import { PubblesCategoriesModule } from './apis/pubblesCategories/pubblesCategories.module';
 import { PubblesTagsModule } from './apis/pubblesTags/pubblesTags.module';
 import { CommentsModule } from './apis/comments/comments.module';
+import { FilesModule } from './apis/files/files.moddule';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CommentsModule } from './apis/comments/comments.module';
     PubblesModule,
     PubblesCategoriesModule,
     PubblesTagsModule,
+    FilesModule,
     UsersModule,
     CommentsModule,
     ConfigModule.forRoot(),
