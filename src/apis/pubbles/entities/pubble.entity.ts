@@ -26,6 +26,9 @@ export class Pubble {
   @Column()
   content: string;
 
+  @Column()
+  fileNames: string[];
+
   @Column({ default: 0 })
   likeCount: number;
 
