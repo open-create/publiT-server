@@ -7,12 +7,14 @@ import {
   IPubblesLikesServiceLike,
   IPubblesLikesServiceUnlike,
 } from './interfaces/pubblesLikes.interface';
+import { PubblesService } from '../pubbles/pubbles.service';
 
 @Injectable()
 export class PubblesLikesService {
   constructor(
     @InjectRepository(PubbleLike)
     private readonly pubblesLikesRepository: Repository<PubbleLike>, //
+    private readonly pubblesService: PubblesService,
   ) {}
 
   async like({ id, userId }: IPubblesLikesServiceLike) {
@@ -24,6 +26,8 @@ export class PubblesLikesService {
       pubble: { id },
       user: { id: userId },
     });
+    // pubble like count
+    await this.pubblesService.like({ id });
     return await this.pubblesLikesRepository.save(newLike);
   }
 
@@ -32,7 +36,9 @@ export class PubblesLikesService {
       where: { pubble: { id }, user: { id: userId } },
     });
     if (!existingLike) throw new UnprocessableEntityException('not liked yet');
-    await this.pubblesLikesRepository.remove(existingLike);
+    // pubble like count
+    await this.pubblesService.unlike({ id });
+    return await this.pubblesLikesRepository.remove(existingLike);
   }
 
   async countLikes({ id }: IPubblesLikesServiceCountLikes): Promise<number> {
