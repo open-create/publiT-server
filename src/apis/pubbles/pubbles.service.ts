@@ -8,6 +8,7 @@ import {
   IPubblesServiceDelete,
   IPubblesServiceFindOne,
   IPubblesServiceUpdate,
+  IPubblesServiceUpdateDraft,
   IPubblesServiceUpdatePartial,
 } from './interfaces/pubbles.interface';
 import { PubblesTagsService } from '../pubblesTags/pubblesTags.service';
@@ -110,6 +111,20 @@ export class PubblesService {
 
     Object.assign(pubble, { ...temp, tags });
     return await this.pubblesRepository.save(pubble);
+  }
+
+  async updateDraft({ id, isDraft, userId }: IPubblesServiceUpdateDraft) {
+    const pubble = await this.findOne({ id });
+    if (pubble.author.id !== userId)
+      throw new UnprocessableEntityException(
+        'You are not the author of this pubble',
+      );
+    if (pubble.isDraft == isDraft)
+      throw new UnprocessableEntityException(
+        'This pubble is already in the desired draft state',
+      );
+    await this.pubblesRepository.update(id, { isDraft });
+    return { success: true };
   }
 
   async delete({ id }: IPubblesServiceDelete): Promise<boolean> {
