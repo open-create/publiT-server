@@ -1,7 +1,7 @@
 import { User } from 'src/apis/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-enum NoticeType {
+export enum NoticeType {
   POST = 'POST',
   COMMENT = 'COMMENT',
   SUBSCRIPTION = 'SUBSCRIPTION',
@@ -28,7 +28,7 @@ export class Notice {
   message: string;
 
   @Column()
-  referencedId: string;
+  referenceId: string;
 
   @Column({ default: false })
   isRead: boolean;
