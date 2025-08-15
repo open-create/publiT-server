@@ -22,7 +22,7 @@ export class CommentsService {
   ) {}
 
   async create({ createCommentsInput, authorId }: ICommentsServiceCreate) {
-    const { content, parent_id, pubbleId } = createCommentsInput;
+    const { content, parentId, pubbleId } = createCommentsInput;
 
     // pubble
     const pubble = await this.pubblesService.findOne({ id: pubbleId });
@@ -37,8 +37,8 @@ export class CommentsService {
 
     // parent comment
     let comment: Comment | null = null;
-    if (parent_id) {
-      comment = await this.findOne({ id: parent_id });
+    if (parentId) {
+      comment = await this.findOne({ id: parentId });
       if (!comment)
         throw new UnprocessableEntityException(
           'there is no such a parent comment',

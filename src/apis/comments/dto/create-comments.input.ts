@@ -1,5 +1,5 @@
 export class CreateCommentsInput {
   content: string;
-  parent_id?: string;
+  parentId?: string;
   pubbleId: string;
 }
