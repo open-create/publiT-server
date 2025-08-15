@@ -69,7 +69,7 @@ export class PubblesController {
     return this.pubblesService.updatePartial({ id, updatePartialPubbleInput });
   }
 
-  @Patch(':id/draft')
+  @Patch(':id/publish-draft')
   @UseGuards(AuthGuard('access'))
   updateSaveDraft(
     @Param('id') id: string, //
@@ -83,7 +83,7 @@ export class PubblesController {
     });
   }
 
-  @Patch(':id/draft')
+  @Patch(':id/save-draft')
   @UseGuards(AuthGuard('access'))
   updatePublishDraft(
     @Param('id') id: string, //
