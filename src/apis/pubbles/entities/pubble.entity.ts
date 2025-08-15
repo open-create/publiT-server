@@ -32,7 +32,7 @@ export class Pubble {
   @Column({ default: 0 })
   likeCount: number;
 
-  @Column()
+  @Column({ default: false })
   isDraft: boolean;
 
   @CreateDateColumn()
