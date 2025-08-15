@@ -31,8 +31,8 @@ export class Comment {
   pubble: Pubble;
 
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 
   @DeleteDateColumn()
-  deleted_at: Date;
+  deletedAt: Date;
 }

@@ -56,7 +56,7 @@ export class PubblesService {
 
   async findAll(): Promise<Pubble[]> {
     return await this.pubblesRepository.find({
-      order: { created_at: 'DESC' },
+      order: { createdAt: 'DESC' },
       relations: ['pubbleCategory', 'author', 'pubblesTags', 'comments'],
     });
   }

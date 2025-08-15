@@ -20,5 +20,5 @@ export class User {
   profile_img: string;
 
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 }
