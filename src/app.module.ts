@@ -8,16 +8,20 @@ import { PubblesCategoriesModule } from './apis/pubblesCategories/pubblesCategor
 import { PubblesTagsModule } from './apis/pubblesTags/pubblesTags.module';
 import { CommentsModule } from './apis/comments/comments.module';
 import { FilesModule } from './apis/files/files.moddule';
+import { NoticesModule } from './apis/notices/notices.module';
+import { PubblesLikesModule } from './apis/pubblesLikes/pubblesLikes.module';
 
 @Module({
   imports: [
     AuthModule,
     PubblesModule,
+    PubblesLikesModule,
     PubblesCategoriesModule,
     PubblesTagsModule,
     FilesModule,
     UsersModule,
     CommentsModule,
+    NoticesModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: process.env.DATABASE_TYPE as 'mysql',
