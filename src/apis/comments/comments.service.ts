@@ -23,18 +23,15 @@ export class CommentsService {
 
   async create({ createCommentsInput, authorId }: ICommentsServiceCreate) {
     const { content, parentId, pubbleId } = createCommentsInput;
-
     // pubble
     const pubble = await this.pubblesService.findOne({ id: pubbleId });
     if (!pubble)
       throw new UnprocessableEntityException(
         'there is no pubble or deleted pubble',
       );
-
     // user
     const user = await this.usersService.findOne({ id: authorId });
     if (!user) throw new UnprocessableEntityException('there is no user');
-
     // parent comment
     let comment: Comment | null = null;
     if (parentId) {
@@ -44,7 +41,6 @@ export class CommentsService {
           'there is no such a parent comment',
         );
     }
-
     return await this.commentsRepository.save({
       content,
       parentComment: comment,
