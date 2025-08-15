@@ -28,3 +28,9 @@ export interface IPubblesServiceUpdatePartial {
 export interface IPubbleServiceFindByCategory {
   pubbleCategoryId: string;
 }
+
+export interface IPubblesServiceUpdateDraft {
+  id: string;
+  isDraft: boolean;
+  userId: string;
+}
