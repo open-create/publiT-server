@@ -21,14 +21,6 @@ export class UsersController {
     private readonly usersService: UsersService, //
   ) {}
 
-  // OAuth로 통일
-  // @Post('sign-in')
-  // createUser(
-  //   @Body() createUserInput: CreateUserInput, //
-  // ): Promise<User> {
-  //   return this.usersService.create({ createUserInput });
-  // }
-
   @Get('/profile')
   @UseGuards(AuthGuard('access'))
   fetchProfile(

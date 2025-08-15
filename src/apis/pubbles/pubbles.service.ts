@@ -30,10 +30,8 @@ export class PubblesService {
   }: IPubblesServiceCreate): Promise<Pubble> {
     const { pubbleCategoryId, pubblesTags, fileNames, ...pubbleInput } =
       createPubbleInput;
-
     // user
     const user = await this.usersService.findOne({ id });
-
     // tags
     const tagNames = pubblesTags.map((el) => el.replace('#', ''));
     const prevTags = await this.pubblesTagsService.findByNames({ tagNames });
@@ -44,7 +42,7 @@ export class PubblesService {
     });
     const newTags = await this.pubblesTagsService.bulkInsert({ names: temp });
     const tags = [...prevTags, ...newTags.identifiers];
-
+    // return
     return await this.pubblesRepository.save({
       ...pubbleInput,
       pubbleCategory: { id: pubbleCategoryId },
@@ -56,7 +54,7 @@ export class PubblesService {
 
   async findAll(): Promise<Pubble[]> {
     return await this.pubblesRepository.find({
-      order: { created_at: 'DESC' },
+      order: { createdAt: 'DESC' },
       relations: ['pubbleCategory', 'author', 'pubblesTags', 'comments'],
     });
   }
@@ -83,7 +81,6 @@ export class PubblesService {
   }: IPubblesServiceUpdate): Promise<Pubble> {
     const pubble = await this.findOne({ id });
     const { pubblesTags, ...temp } = updatePubbleInput;
-
     // tags
     let tags: PubbleTag[];
     if (pubblesTags)
@@ -91,7 +88,6 @@ export class PubblesService {
         tagNames: pubblesTags,
       });
     else tags = [];
-
     Object.assign(pubble, { ...temp, tags });
     return this.pubblesRepository.save(pubble);
   }
@@ -108,7 +104,7 @@ export class PubblesService {
         tagNames: pubblesTags,
       });
     else tags = [];
-
+    // update and return
     Object.assign(pubble, { ...temp, tags });
     return await this.pubblesRepository.save(pubble);
   }

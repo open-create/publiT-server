@@ -21,7 +21,6 @@ export class AuthService {
     const user = await this.usersService.findOneByUsername({
       username: loginInput.username,
     });
-
     this.setRefreshToken({ user, res });
     return this.getAccessToken({ user });
   }
@@ -31,7 +30,6 @@ export class AuthService {
     let user: User | null = await this.usersService.findOneByEmail({
       email: req.user.email,
     });
-
     // 2. 가입 안되어있다면 회원가입
     if (!user)
       user = await this.usersService.create({
@@ -40,7 +38,6 @@ export class AuthService {
           username: req.user.username ?? 'user',
         },
       });
-
     // 3. 회원가입이 되어있다면
     // 로그인 (refreshToken, accessToken 만들어서 브라우저에 전송)
     this.setRefreshToken({ user, res });
@@ -62,13 +59,11 @@ export class AuthService {
       { sub: user.id },
       { secret: '_refreshSecrete', expiresIn: '2w' },
     );
-
     // <CAUTION> this is for development environment
     res.setHeader(
       'set-Cookie', //
       `refreshToken=${refreshToken}; path=/`,
     );
-
     // <IMPORTANT> production environment
     // context.res.setHeader(
     //   'set-Cookie',

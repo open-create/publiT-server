@@ -19,5 +19,5 @@ export class CommentLike {
   user: User;
 
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 }

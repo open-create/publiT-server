@@ -21,5 +21,5 @@ export class PubbleLike {
   user: User;
 
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 }

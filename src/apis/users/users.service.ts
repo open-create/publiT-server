@@ -20,7 +20,6 @@ export class UsersService {
 
   async create({ createUserInput }: IUsersServiceCreate): Promise<User> {
     await this.findOneByEmail({ email: createUserInput.email });
-
     return await this.usersRepository.save({
       ...createUserInput,
     });
