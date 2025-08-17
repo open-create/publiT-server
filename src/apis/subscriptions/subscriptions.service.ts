@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { ISubscriptionsServiceCreate } from './interfaces/subscriptions.interface';
 import { UsersService } from '../users/users.service';
 import { Subscription } from './entities/subscription.entity';
+import { NoticesService } from '../notices/notices.service';
+import { NoticeType } from '../notices/entities/notice.entity';
 
 @Injectable()
 export class SubscriptionsService {
@@ -11,6 +13,7 @@ export class SubscriptionsService {
     @InjectRepository(Subscription)
     private readonly subscriptionsRepository: Repository<Subscription>,
     private readonly usersService: UsersService,
+    private readonly noticesService: NoticesService,
   ) {}
 
   async create({ subscriberId, targetId }: ISubscriptionsServiceCreate) {
@@ -22,6 +25,12 @@ export class SubscriptionsService {
     const subscription = this.subscriptionsRepository.create({
       subscriber,
       target,
+    });
+    // notice
+    await this.noticesService.create({
+      receiverId: target.id,
+      type: NoticeType.SUBSCRIPTION,
+      message: `${subscriber.username} has subscribed to you.`,
     });
     return this.subscriptionsRepository.save(subscription);
   }
