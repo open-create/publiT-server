@@ -2,6 +2,7 @@ import { User } from 'src/apis/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum NoticeType {
+  PUBBLE_LIKE = 'PUBBLE_LIKE', //                     create PubbleLike occurred
   SUBSCRIPTION_NEW_POST = 'SUBSCRIPTION_NEW_POST', // create Pubble occurred
   COMMENT = 'COMMENT', //                             create Comment occurred
   SUBSCRIPTION = 'SUBSCRIPTION', //                   create Subscription occurred
