@@ -8,6 +8,8 @@ import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { Comment } from './entities/comment.entity';
 import { PubblesTagsModule } from '../pubblesTags/pubblesTags.module';
+import { Notice } from '../notices/entities/notice.entity';
+import { NoticesService } from '../notices/notices.service';
 
 @Module({
   imports: [
@@ -15,6 +17,7 @@ import { PubblesTagsModule } from '../pubblesTags/pubblesTags.module';
       Comment, //
       Pubble,
       User,
+      Notice,
     ]),
     PubblesTagsModule,
   ],
@@ -23,6 +26,7 @@ import { PubblesTagsModule } from '../pubblesTags/pubblesTags.module';
     CommentsService, //
     PubblesService,
     UsersService,
+    NoticesService,
   ],
 })
 export class CommentsModule {}

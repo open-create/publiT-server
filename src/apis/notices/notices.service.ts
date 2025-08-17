@@ -1,8 +1,9 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Notice, NoticeType } from './entities/notice.entity';
+import { Notice } from './entities/notice.entity';
 import { Repository } from 'typeorm';
 import { UsersService } from '../users/users.service';
+import { INoticesServiceCreate } from './interfaces/notices.interface';
 
 @Injectable()
 export class NoticesService {
@@ -17,12 +18,7 @@ export class NoticesService {
     type,
     referenceId,
     message,
-  }: {
-    receiverId: string;
-    type: NoticeType;
-    referenceId?: string;
-    message: string;
-  }) {
+  }: INoticesServiceCreate) {
     const user = await this.usersService.findOne({ id: receiverId });
     if (!user) throw new UnprocessableEntityException('User not found');
     const notification = this.noticesRepository.create({
