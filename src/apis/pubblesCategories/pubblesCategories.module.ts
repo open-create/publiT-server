@@ -8,6 +8,7 @@ import { PubblesService } from '../pubbles/pubbles.service';
 import { PubblesTagsService } from '../pubblesTags/pubblesTags.service';
 import { PubbleTag } from '../pubblesTags/entities/pubbleTag.entity';
 import { UsersModule } from '../users/users.module';
+import { NoticesModule } from '../notices/notices.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UsersModule } from '../users/users.module';
       PubbleTag,
     ]),
     UsersModule,
+    NoticesModule,
   ],
   controllers: [PubblesCategoriesController],
   providers: [

@@ -14,6 +14,8 @@ import {
 import { PubblesTagsService } from '../pubblesTags/pubblesTags.service';
 import { PubbleTag } from '../pubblesTags/entities/pubbleTag.entity';
 import { UsersService } from '../users/users.service';
+import { NoticesService } from '../notices/notices.service';
+import { NoticeType } from '../notices/entities/notice.entity';
 
 @Injectable()
 export class PubblesService {
@@ -22,6 +24,7 @@ export class PubblesService {
     private readonly pubblesRepository: Repository<Pubble>, //
     private readonly pubblesTagsService: PubblesTagsService,
     private readonly usersService: UsersService,
+    private readonly noticesService: NoticesService,
   ) {}
 
   async create({
@@ -42,14 +45,22 @@ export class PubblesService {
     });
     const newTags = await this.pubblesTagsService.bulkInsert({ names: temp });
     const tags = [...prevTags, ...newTags.identifiers];
-    // return
-    return await this.pubblesRepository.save({
+    // pubble
+    const pubble = this.pubblesRepository.create({
       ...pubbleInput,
       pubbleCategory: { id: pubbleCategoryId },
       pubblesTags: tags,
       fileNames,
       author: user,
     });
+    // notice
+    await this.noticesService.create({
+      receiverId: pubble.id,
+      type: NoticeType.SUBSCRIPTION_NEW_POST,
+      message: `${user.username} has created a new post.`,
+    });
+    // return
+    return await this.pubblesRepository.save(pubble);
   }
 
   async findAll(): Promise<Pubble[]> {

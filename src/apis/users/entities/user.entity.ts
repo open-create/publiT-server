@@ -1,7 +1,9 @@
+import { Notice } from 'src/apis/notices/entities/notice.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -18,6 +20,9 @@ export class User {
 
   @Column({ nullable: true })
   profile_img: string;
+
+  @OneToMany(() => Notice, (notice) => notice.receiver)
+  notifications: Notice[];
 
   @CreateDateColumn()
   createdAt: Date;
