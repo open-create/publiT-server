@@ -18,5 +18,6 @@ import { UsersModule } from '../users/users.module';
     NoticesService, //
     UsersService,
   ],
+  exports: [NoticesService],
 })
 export class NoticesModule {}

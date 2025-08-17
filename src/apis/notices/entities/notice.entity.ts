@@ -2,10 +2,11 @@ import { User } from 'src/apis/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum NoticeType {
-  COMMENT = 'COMMENT', //              create Comment occurred
-  SUBSCRIPTION = 'SUBSCRIPTION', //    create Subscription occurred
-  OFFICIAL = 'OFFICIAL', //            create Official Notice occurred
-  REPORT = 'REPORT', //                create Report occurred
+  SUBSCRIPTION_NEW_POST = 'SUBSCRIPTION_NEW_POST', // create Pubble occurred
+  COMMENT = 'COMMENT', //                             create Comment occurred
+  SUBSCRIPTION = 'SUBSCRIPTION', //                   create Subscription occurred
+  OFFICIAL = 'OFFICIAL', //                           create Official Notice occurred
+  REPORT = 'REPORT', //                               create Report occurred
 }
 
 @Entity()
