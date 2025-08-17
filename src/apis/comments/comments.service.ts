@@ -36,10 +36,10 @@ export class CommentsService {
     const user = await this.usersService.findOne({ id: authorId });
     if (!user) throw new UnprocessableEntityException('there is no user');
     // parent comment
-    let comment: Comment | null = null;
+    let parentComment: Comment | null = null;
     if (parentId) {
-      comment = await this.findOne({ id: parentId });
-      if (!comment)
+      parentComment = await this.findOne({ id: parentId });
+      if (!parentComment)
         throw new UnprocessableEntityException(
           'there is no such a parent comment',
         );
@@ -51,9 +51,18 @@ export class CommentsService {
       referenceId: pubbleId,
       receiverId: user.id,
     });
+    if (parentComment) {
+      await this.noticesService.create({
+        type: NoticeType.COMMENT,
+        message: content,
+        referenceId: parentId,
+        receiverId: parentComment.author.id,
+      });
+    }
+    // return
     return await this.commentsRepository.save({
       content,
-      parentComment: comment,
+      parentComment,
       author: user,
       pubble: { id: pubbleId },
     });
