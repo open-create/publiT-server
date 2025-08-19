@@ -76,7 +76,7 @@ export class AuthService {
     if (process.env.NODE_ENV === 'prod') {
       res.setHeader(
         'set-Cookie',
-        `refreshToken=${refreshToken}; Path=/; HttpOnly; SameSite=Lax`, // Secure 없음
+        `refreshToken=${refreshToken}; Path=/; HttpOnly; Secure; SameSite=None`, // Secure 없음
       );
     } else if (process.env.NODE_ENV === 'dev') {
       res.setHeader(
