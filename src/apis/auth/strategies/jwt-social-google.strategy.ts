@@ -26,7 +26,7 @@ export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'google') {
     profile: import('passport-google-oauth20').Profile,
   ) {
     return {
-      userName: profile.displayName,
+      username: profile.displayName,
       email: profile.emails && profile.emails[0] ? profile.emails[0].value : '',
       password: '1234',
       profile_img: profile.photos?.[0]?.value,
