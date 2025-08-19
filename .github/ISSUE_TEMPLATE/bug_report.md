@@ -2,8 +2,8 @@
 name: Bug report
 about: 버그가 발견되면 즉시 알려주세요!
 title: ''
-labels: ''
-assignees: ''
+labels: "⚒️ Feat"
+assignees: rbdus0715
 
 ---
 
