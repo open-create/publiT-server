@@ -2,7 +2,7 @@
 name: Feature request
 about: 필요한 기능을 제안해주세요.
 title: "[FEAT]"
-labels: "⚒️ FEAT"
+labels: ''
 assignees: rbdus0715
 
 ---
