@@ -60,10 +60,10 @@ export class AuthService {
       { secret: '_refreshSecrete', expiresIn: '2w' },
     );
     // <CAUTION> this is for development environment
-    res.setHeader(
-      'set-Cookie', //
-      `refreshToken=${refreshToken}; path=/`,
-    );
+    // res.setHeader(
+    //   'set-Cookie', //
+    //   `refreshToken=${refreshToken}; path=/`,
+    // );
     // <IMPORTANT> production environment
     // context.res.setHeader(
     //   'set-Cookie',
@@ -73,6 +73,17 @@ export class AuthService {
     //   'Access-Control-Allow-Origin',
     //   'https://myfrontendsite.com',
     // );
+    if (process.env.NODE_ENV === 'prod') {
+      res.setHeader(
+        'set-Cookie',
+        `refreshToken=${refreshToken}; Path=/; HttpOnly; SameSite=Lax`, // Secure 없음
+      );
+    } else if (process.env.NODE_ENV === 'dev') {
+      res.setHeader(
+        'set-Cookie', //
+        `refreshToken=${refreshToken}; path=/`,
+      );
+    }
   }
 
   restoreAccessToken({ user }: IAuthServiceRestoreAccessToken): string {
