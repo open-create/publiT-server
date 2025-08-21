@@ -39,8 +39,8 @@ export class PubblesController {
     return this.pubblesService.findOne({ id });
   }
 
+  // @UseGuards(AuthGuard('access'))
   @Post()
-  @UseGuards(AuthGuard('access'))
   create(
     @Body() createPubbleInput: CreatePubbleInput, //
     @Req() req: Request & IAuthUser,
@@ -49,8 +49,8 @@ export class PubblesController {
     return this.pubblesService.create({ createPubbleInput, id: req.user.id });
   }
 
+  // @UseGuards(AuthGuard('access'))
   @Put(':id')
-  @UseGuards(AuthGuard('access'))
   update(
     @Param('id') id: string, //
     @Body() updatePubbleInput: UpdatePubbleInput,
